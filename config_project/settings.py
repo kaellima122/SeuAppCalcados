@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework', # <<<--- ADICIONE ESTA LINHA
     'usuarios.apps.UsuariosConfig',
+    'produtos.apps.ProdutosConfig', # <<<--- ADICIONE ESTA LINHA
 ]
 
 MIDDLEWARE = [
