@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Novo Usuário - Sistema de Calçados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registrar Novo Usuário</h1>
+        <form id="formRegistro">
+            <div>
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="firstName">Primeiro Nome:</label>
+                <input type="text" id="firstName" name="firstName">
+            </div>
+            <div>
+                <label for="lastName">Sobrenome:</label>
+                <input type="text" id="lastName" name="lastName">
+            </div>
+            <div>
+                <label for="perfilId">ID do Perfil:</label>
+                <input type="number" id="perfilId" name="perfilId" placeholder="Ex: 1 para Gerente" required>
+                </div>
+            <button type="submit">Registrar</button>
+        </form>
+        <div id="mensagemRetorno" class="mensagem"></div> </div>
+
+    <script src="js/registrar.js"></script>
+</body>
+</html>

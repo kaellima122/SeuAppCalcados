@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'usuarios.apps.UsuariosConfig', # NOSSO APP ADICIONADO AQUI!
+    'corsheaders',
+    'usuarios.apps.UsuariosConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,12 +54,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config_project.urls' # Aponta para o arquivo urls.py dentro de config_project
+ROOT_URLCONF = 'config_project.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], # Aqui você pode adicionar pastas de templates globais no futuro
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,19 +76,15 @@ WSGI_APPLICATION = 'config_project.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/X.Y/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3', # O arquivo do banco de dados será criado na raiz do projeto
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
 
 # Password validation
-# https://docs.djangoproject.com/en/X.Y/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -104,29 +102,30 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/X.Y/topics/i18n/
+LANGUAGE_CODE = 'pt-br'
 
-LANGUAGE_CODE = 'pt-br' # Alterado para Português do Brasil
-
-TIME_ZONE = 'America/Sao_Paulo' # Alterado para o fuso horário de São Paulo (ajuste se necessário)
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
-USE_TZ = True # Recomendado manter True para lidar corretamente com fusos horários
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/X.Y/howto/static-files/
-
 STATIC_URL = 'static/'
-# STATICFILES_DIRS = [BASE_DIR / 'static'] # Para arquivos estáticos globais do projeto (descomente e crie a pasta se precisar)
-# MEDIA_URL = '/media/' # Para arquivos de upload de usuário
-# MEDIA_ROOT = BASE_DIR / 'media' # Para arquivos de upload de usuário
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/X.Y/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # (Opcional, mas recomendado para o futuro) Se você definir um modelo de usuário customizado:
-# AUTH_USER_MODEL = 'usuarios.SeuModeloDeUsuarioCustomizado' # Descomente e ajuste quando/se criar um
+# AUTH_USER_MODEL = 'usuarios.SeuModeloDeUsuarioCustomizado'
+
+
+# Configurações do CORS (ADICIONADAS NO FINAL DO ARQUIVO)
+CORS_ALLOW_ALL_ORIGINS = True   # Permite todas as origens (para desenvolvimento)
+CORS_ALLOW_CREDENTIALS = True   # Permite que cookies (como o de sessão) sejam enviados
+                                # em requisições cross-origin. Importante para o login.
