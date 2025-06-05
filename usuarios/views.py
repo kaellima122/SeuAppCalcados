@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError
 import json
 
-# Importações para a função de login
+# Importações para as funções de login e logout
 from django.contrib.auth import authenticate, login, logout
 
 from .models import Perfil # UserProfile é criado automaticamente pelo signal
@@ -31,7 +31,6 @@ def registrar_usuario_view(request):
             perfil_obj = None
             if perfil_id:
                 try:
-                    # Tenta converter perfil_id para inteiro, caso venha como string no JSON
                     perfil_obj = Perfil.objects.get(id=int(perfil_id))
                 except Perfil.DoesNotExist:
                     return HttpResponseBadRequest(
@@ -39,7 +38,7 @@ def registrar_usuario_view(request):
                         content_type="application/json",
                         status=400
                     )
-                except (ValueError, TypeError): # Trata caso perfil_id não seja um número válido
+                except (ValueError, TypeError): 
                      return HttpResponseBadRequest(
                         json.dumps({'error': f'Perfil ID "{perfil_id}" é inválido. Deve ser um número.'}),
                         content_type="application/json",
@@ -55,7 +54,6 @@ def registrar_usuario_view(request):
             )
 
             if perfil_obj:
-                # user.profile já existe por causa do signal
                 user.profile.perfil = perfil_obj
                 user.profile.save()
 
@@ -77,12 +75,12 @@ def registrar_usuario_view(request):
     return HttpResponseBadRequest(json.dumps({'error': 'Método não permitido. Use POST.'}), content_type="application/json", status=405)
 
 
-@csrf_exempt # Para APIs simples; em produção, considere autenticação por token para APIs sem estado
+@csrf_exempt
 def login_usuario_view(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            username = data.get('username') # Pode ser o username ou o email, dependendo da configuração do seu backend de autenticação
+            username = data.get('username')
             password = data.get('password')
 
             if not username or not password:
@@ -92,15 +90,12 @@ def login_usuario_view(request):
                     status=400
                 )
 
-            # Autentica o usuário
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
-                # Se o usuário foi autenticado com sucesso, cria uma sessão para ele
-                login(request, user) # Cria a sessão e envia o cookie de sessão
+                login(request, user) 
                 
                 perfil_nome = None
-                # Tenta acessar o perfil através do related_name 'profile' que definimos no UserProfile
                 if hasattr(user, 'profile') and user.profile and user.profile.perfil:
                     perfil_nome = user.profile.perfil.nome
 
@@ -114,17 +109,29 @@ def login_usuario_view(request):
                     'perfil': perfil_nome
                 }, status=200)
             else:
-                # Se a autenticação falhar
                 return HttpResponseBadRequest(
                     json.dumps({'error': 'Credenciais inválidas.'}),
                     content_type="application/json",
-                    status=401 # 401 Unauthorized
+                    status=401
                 )
 
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({'error': 'JSON inválido.'}), content_type="application/json", status=400)
         except Exception as e:
-            # Em produção, logar o erro 'e' e retornar uma mensagem mais genérica
             return HttpResponseBadRequest(json.dumps({'error': f'Ocorreu um erro no login: {str(e)}'}), content_type="application/json", status=400)
 
+    return HttpResponseBadRequest(json.dumps({'error': 'Método não permitido. Use POST.'}), content_type="application/json", status=405)
+
+
+# NOVA FUNÇÃO DE LOGOUT ADICIONADA ABAIXO:
+@csrf_exempt 
+def logout_usuario_view(request):
+    if request.method == 'POST': # Logout também via POST por segurança/padrão
+        if request.user.is_authenticated:
+            logout(request) # Função do Django que encerra a sessão do usuário
+            return JsonResponse({'message': 'Logout bem-sucedido.'}, status=200)
+        else:
+            # Se o usuário já não estava autenticado, podemos apenas informar.
+            return JsonResponse({'message': 'Nenhum usuário autenticado para fazer logout.'}, status=200) # Ou 400 Bad Request se preferir que seja um erro
+    
     return HttpResponseBadRequest(json.dumps({'error': 'Método não permitido. Use POST.'}), content_type="application/json", status=405)
