@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Calçados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="formLogin">
+            <div>
+                <label for="usernameLogin">Nome de Usuário (ou Email):</label>
+                <input type="text" id="usernameLogin" name="username" required>
+            </div>
+            <div>
+                <label for="passwordLogin">Senha:</label>
+                <input type="password" id="passwordLogin" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="mensagemRetornoLogin" class="mensagem"></div> <p style="text-align: center; margin-top: 20px;">
+            Não tem uma conta? <a href="registrar.html">Registre-se aqui</a>
+        </p>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
