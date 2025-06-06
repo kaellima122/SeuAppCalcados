@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import MateriaPrima, Fornecedor
+# Adicionamos ProdutoModelo à lista de importações
+from .models import MateriaPrima, Fornecedor, ProdutoModelo
 
 class FornecedorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +28,11 @@ class MateriaPrimaSerializer(serializers.ModelSerializer):
             'data_cadastro'
         ]
         read_only_fields = ('data_cadastro',) # Campos que não podem ser editados via API
+
+
+# --- NOVO SERIALIZADOR ADICIONADO AQUI ---
+class ProdutoModeloSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProdutoModelo
+        # '__all__' é um atalho para incluir todos os campos do modelo ProdutoModelo
+        fields = '__all__'
