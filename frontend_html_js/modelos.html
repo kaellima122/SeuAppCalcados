@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos de Produto - Sistema de Calçados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h1>Adicionar Novo Modelo de Produto</h1>
+            <form id="formModelo">
+                <div>
+                    <label for="codigo_modelo">Código do Modelo (Referência):</label>
+                    <input type="text" id="codigo_modelo" name="codigo_modelo" required>
+                </div>
+                <div>
+                    <label for="nome_modelo">Nome do Modelo:</label>
+                    <input type="text" id="nome_modelo" name="nome_modelo" required>
+                </div>
+                <div>
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" rows="3"></textarea>
+                </div>
+                <button type="submit">Adicionar Modelo</button>
+            </form>
+            <div id="mensagemRetornoForm" class="mensagem"></div>
+        </div>
+
+        <hr class="separator">
+
+        <div class="list-section">
+            <h2>Modelos de Produto Cadastrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Código</th>
+                        <th>Nome do Modelo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaModelos">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/modelos.js"></script>
+</body>
+</html>

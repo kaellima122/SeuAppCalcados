@@ -132,3 +132,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True   # Permite todas as origens (para desenvolvimento)
 CORS_ALLOW_CREDENTIALS = True   # Permite que cookies (como o de sessão) sejam enviados
                                 # em requisições cross-origin. Importante para o login.
+
+# Adicionar no final do arquivo settings.py
+
+# Configurações do Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny', # Permite acesso a qualquer um (para desenvolvimento)
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [], # Desativa a autenticação padrão por enquanto
+}
