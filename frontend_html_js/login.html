@@ -12,25 +12,20 @@
         <form id="formLogin">
             <div>
                 <label for="usernameLogin">Nome de Usuário:</label>
-                <input type="text" id="usernameLogin" name="username" required>
+                <input type="text" id="usernameLogin" name="username" required autocomplete="username">
             </div>
             <div>
                 <label for="passwordLogin">Senha:</label>
-                <input type="password" id="passwordLogin" name="password" required>
+                <input type="password" id="passwordLogin" name="password" required autocomplete="current-password">
             </div>
             <button type="submit">Entrar</button>
         </form>
         <div id="mensagemRetornoLogin" class="mensagem"></div>
         <p style="text-align: center; margin-top: 20px;">
-            Não tem uma conta? <a href="registrar.html">Registre-se aqui</a>
+            Não tem uma conta? <a href="registrar.html" style="color: #9a7bf8; text-decoration: none;">Registre-se aqui</a>
         </p>
     </div>
 
     <script src="js/login.js"></script>
-
-    
-</div> <script src="js/login.js"></script>
-</body>
-</html>
 </body>
 </html>
