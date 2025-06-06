@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework', # <<<--- ADICIONE ESTA LINHA
     'usuarios.apps.UsuariosConfig',
     'produtos.apps.ProdutosConfig', # <<<--- ADICIONE ESTA LINHA
+    'producao.apps.ProducaoConfig',
 ]
 
 MIDDLEWARE = [
