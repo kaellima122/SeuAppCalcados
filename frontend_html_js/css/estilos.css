@@ -138,3 +138,90 @@ button[type="submit"]:active {
 ::-ms-input-placeholder { /* Microsoft Edge */
     color: #888;
 }
+/* Estilos adicionais para a página de matérias-primas */
+
+.separator {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 40px 0;
+}
+
+.list-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.table-container {
+    overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+thead th {
+    background-color: rgba(127, 90, 240, 0.2); /* Fundo roxo semi-transparente para o cabeçalho */
+    color: #f0f0f0;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilizando o <select> para combinar com os inputs */
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #f0f0f0;
+    font-size: 1em;
+    -webkit-appearance: none; /* Remove a aparência padrão no Chrome/Safari */
+    -moz-appearance: none; /* Remove a aparência padrão no Firefox */
+    appearance: none;
+    /* Adiciona uma seta customizada */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c0c0c0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: .65em auto;
+}
+/* Estilos para botões de ação na tabela */
+.btn-editar, .btn-excluir {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.8em;
+    margin: 0 2px;
+}
+
+.btn-editar {
+    background-color: #17a2b8; /* Azul/Ciano */
+}
+
+.btn-editar:hover {
+    background-color: #138496;
+}
+
+.btn-excluir {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.btn-excluir:hover {
+    background-color: #c82333;
+}
