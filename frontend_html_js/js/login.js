@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (formLogin) {
         formLogin.addEventListener('submit', function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
             mensagemRetornoDivLogin.innerHTML = '';
-            mensagemRetornoDivLogin.className = 'mensagem'; 
+            mensagemRetornoDivLogin.className = 'mensagem';
 
             const username = document.getElementById('usernameLogin').value;
             const password = document.getElementById('passwordLogin').value;
@@ -24,23 +24,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             fetch('http://127.0.0.1:8000/api/usuarios/login/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include', // Importante para cookies de sessão
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosLogin)
             })
             .then(response => response.json().then(data => ({ status: response.status, body: data })))
             .then(dataObj => {
                 if (dataObj.status === 200) {
-                    exibirMensagemLogin(`Login bem-sucedido! Redirecionando...`, 'sucesso');
+                    // O login foi um sucesso!
+                    // Primeiro, guardamos o token e o username.
+                    localStorage.setItem('authToken', dataObj.body.token);
+                    localStorage.setItem('username', dataObj.body.username);
 
-                    // ---- MUDANÇA DE DEBUG AQUI ----
-                    // Vamos adicionar um log no console e redirecionar imediatamente.
-                    console.log("Login OK. Tentando redirecionar para dashboard.html");
-                    window.location.href = 'dashboard.html'; 
+                    // AGORA, REDIRECIONAMOS IMEDIATAMENTE.
+                    window.location.href = 'dashboard.html';
 
                 } else {
+                    // Se o login falhar, mostramos o erro.
                     exibirMensagemLogin(dataObj.body.error || 'Ocorreu um erro ao tentar fazer login.', 'erro');
                 }
             })
@@ -54,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function exibirMensagemLogin(mensagem, tipo) {
         if (mensagemRetornoDivLogin) {
             mensagemRetornoDivLogin.innerHTML = mensagem;
-            mensagemRetornoDivLogin.className = 'mensagem'; 
+            mensagemRetornoDivLogin.className = 'mensagem';
             if (tipo === 'sucesso') {
                 mensagemRetornoDivLogin.classList.add('sucesso');
             } else if (tipo === 'erro') {

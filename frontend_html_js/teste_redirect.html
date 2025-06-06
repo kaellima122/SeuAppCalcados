@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Redirecionamento Puro</title>
+</head>
+<body>
+
+    <h1>Página de Teste de Redirecionamento</h1>
+    <p>O único objetivo desta página é testar se o comando 'window.location.href' está funcionando no seu navegador.</p>
+
+    <button id="botaoTeste" style="font-size: 20px; padding: 15px;">Ir para o Google</button>
+
+    <script>
+        // A variável 'botao' é declarada apenas UMA VEZ aqui.
+        const botao = document.getElementById('botaoTeste');
+
+        // O evento de clique é adicionado a essa variável.
+        botao.addEventListener('click', function() {
+            console.log('Botão de teste clicado! Tentando redirecionar...');
+            alert('Agora vou tentar redirecionar para o Google.');
+
+            // Comando de redirecionamento
+            window.location.href = 'https://www.google.com';
+
+            console.log('Comando de redirecionamento foi executado.');
+        });
+    </script>
+
+</body>
+</html>
