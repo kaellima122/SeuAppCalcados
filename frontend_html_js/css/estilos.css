@@ -255,3 +255,71 @@ textarea:focus { /* Adicione textarea aqui */
     border-color: #7f5af0;
     box-shadow: 0 0 8px rgba(127, 90, 240, 0.5);
 }
+/* Adicionar em estilos.css */
+.btn-visualizar {
+    background-color: #28a745; /* Verde */
+    display: inline-block;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.8em;
+    margin: 0 2px;
+    line-height: 1.5; /* Alinha o texto verticalmente */
+}
+.btn-visualizar:hover {
+    background-color: #218838;
+}
+/* ===== ESTILOS ADICIONAIS PARA TABELAS E BOTÕES DE AÇÃO ===== */
+
+/* Garante que o texto nas células da tabela esteja bem alinhado verticalmente */
+td {
+    vertical-align: middle;
+}
+
+/* Estilo para a última célula de cada linha (a coluna de Ações) */
+td:last-child {
+    text-align: center; /* Centraliza os botões na célula */
+    white-space: nowrap; /* Impede que os botões quebrem a linha em telas menores */
+}
+
+/* Estilos base para todos os botões de ação (Editar, Excluir, Visualizar) */
+.btn-editar, .btn-excluir, .btn-visualizar {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin: 0 3px; /* Adiciona um pequeno espaço entre os botões */
+    text-decoration: none; /* Remove o sublinhado dos links que parecem botões */
+    display: inline-block; /* Garante que links <a> se comportem como botões */
+    transition: transform 0.2s ease;
+}
+
+.btn-editar:hover, .btn-excluir:hover, .btn-visualizar:hover {
+    transform: translateY(-2px); /* Efeito de "levantar" ao passar o mouse */
+}
+
+/* Cores específicas para cada botão */
+.btn-visualizar {
+    background-color: #28a745; /* Verde */
+}
+.btn-visualizar:hover {
+    background-color: #218838;
+}
+
+.btn-editar {
+    background-color: #007bff; /* Azul */
+}
+.btn-editar:hover {
+    background-color: #0069d9;
+}
+
+.btn-excluir {
+    background-color: #dc3545; /* Vermelho */
+}
+.btn-excluir:hover {
+    background-color: #c82333;
+}

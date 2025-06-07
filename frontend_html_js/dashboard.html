@@ -5,12 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Sistema de Calçados</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        .nav-menu {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .nav-menu a, .nav-menu button {
+            display: block;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: white;
+            cursor: pointer;
+        }
+        .nav-menu .btn-gerenciar {
+            background: #17a2b8; /* Azul/Ciano */
+        }
+        .nav-menu .btn-gerenciar:hover {
+            background: #138496;
+        }
+        #logoutButton { /* Estilo do botão de logout */
+            background-color: #dc3545; /* Vermelho */
+            border: none;
+            width: 100%;
+        }
+        #logoutButton:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Painel Principal</h1>
-        <p id="mensagemBoasVindas">Bem-vindo! Carregando seus dados...</p>
-        <button id="logoutButton">Logout</button>
+        <p id="mensagemBoasVindas">Bem-vindo ao seu painel de controle.</p>
+
+        <div class="nav-menu">
+            <a href="modelos.html" class="btn-gerenciar">Gerenciar Modelos de Produto</a>
+            <a href="materias_primas.html" class="btn-gerenciar">Gerenciar Matérias-Primas</a>
+            <button id="logoutButton">Logout (Sair)</button>
+        </div>
     </div>
 
     <script src="js/dashboard.js"></script>

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'produtos.apps.ProdutosConfig',
     'producao.apps.ProducaoConfig',
+    'estoque.apps.EstoqueConfig',
 ]
 
 MIDDLEWARE = [
@@ -108,18 +109,15 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 # --- CONFIGURAÇÃO FINAL E PROFISSIONAL DO DJANGO REST FRAMEWORK ---
-# Substituímos a configuração antiga (com AllowAny) por esta.
+# AQUI ESTÁ A MUDANÇA:
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # Define que a principal forma de autenticação será por Token
+        # Define que a ÚNICA forma de autenticação para a API será por Token.
+        # Isso resolve o conflito de CSRF e é o padrão para APIs modernas.
         'rest_framework.authentication.TokenAuthentication',
-        # Mantemos a autenticação por sessão para que o Admin do Django
-        # e a API Navegável continuem funcionando normalmente no navegador.
-        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # Define que, por padrão, TODOS os endpoints exigirão que o usuário
-        # esteja autenticado. Isso torna nossa API segura por padrão.
+        # E por padrão, o acesso a QUALQUER endpoint da API exige um token válido.
         'rest_framework.permissions.IsAuthenticated',
     ],
 }

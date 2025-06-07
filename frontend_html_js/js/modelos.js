@@ -12,17 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- FUNÇÃO PARA CRIAR CABEÇALHOS DE AUTORIZAÇÃO ---
     function getAuthHeaders(includeContentType = true) {
-        const headers = {};
-        if (token) {
-            headers['Authorization'] = `Token ${token}`;
-        }
+        const headers = { 'Authorization': `Token ${token}` };
         if (includeContentType) {
             headers['Content-Type'] = 'application/json';
         }
         return headers;
     }
 
-    // --- FUNÇÃO PARA LISTAR OS MODELOS ---
+    // --- FUNÇÃO PARA LISTAR OS MODELOS (COM A MUDANÇA) ---
     function listarModelos() {
         tabelaModelosBody.innerHTML = ''; 
 
@@ -42,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.length === 0) {
                     const tr = document.createElement('tr');
                     const td = document.createElement('td');
-                    td.colSpan = 4; // Ocupa todas as 4 colunas
+                    td.colSpan = 4;
                     td.textContent = 'Nenhum modelo de produto cadastrado.';
                     td.style.textAlign = 'center';
                     tr.appendChild(td);
@@ -51,15 +48,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.forEach(modelo => {
                         const tr = document.createElement('tr');
                         tr.setAttribute('data-id', modelo.id);
+
+                        // --- MUDANÇA IMPORTANTE AQUI ---
+                        // Adicionamos um link "Variações" que leva para a nova página,
+                        // passando o ID do modelo na URL.
                         tr.innerHTML = `
                             <td>${modelo.id}</td>
                             <td>${modelo.codigo_modelo}</td>
                             <td>${modelo.nome_modelo}</td>
                             <td>
+                                <a href="variacoes.html?modelo_id=${modelo.id}" class="btn-visualizar">Variações</a>
                                 <button class="btn-editar">Editar</button>
                                 <button class="btn-excluir">Excluir</button>
                             </td>
                         `;
+                        
                         tabelaModelosBody.appendChild(tr);
                     });
                 }
@@ -71,7 +74,10 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // --- FUNÇÃO PARA PREPARAR O FORMULÁRIO PARA EDIÇÃO ---
+    // --- O RESTO DO CÓDIGO (prepararEdicao, resetarFormulario, submit do form, click na tabela) ---
+    // Nenhuma mudança é necessária no resto do código, ele continua o mesmo que você já tem.
+    // ... (cole o resto do seu código funcional aqui, ou use o bloco completo abaixo) ...
+
     function prepararEdicao(id) {
         fetch(`${apiUrl}${id}/`, { headers: getAuthHeaders(false) })
             .then(response => response.json())
@@ -86,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
     
-    // --- FUNÇÃO PARA RESETAR O FORMULÁRIO ---
     function resetarFormulario() {
         formModelo.reset();
         editModeloIdInput.value = '';
@@ -96,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
         mensagemRetornoForm.className = 'mensagem';
     }
 
-    // --- EVENT LISTENER PARA O FORMULÁRIO (ADICIONAR E EDITAR) ---
     formModelo.addEventListener('submit', function (event) {
         event.preventDefault();
         const idParaEditar = editModeloIdInput.value;
@@ -107,12 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         let url = apiUrl;
         let metodo = 'POST';
-
         if (idParaEditar) {
             url = `${apiUrl}${idParaEditar}/`;
             metodo = 'PUT';
         }
-
         fetch(url, {
             method: metodo,
             headers: getAuthHeaders(),
@@ -135,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // --- EVENT LISTENER PARA A TABELA (EDITAR E EXCLUIR) ---
     tabelaModelosBody.addEventListener('click', function(event) {
         const linha = event.target.closest('tr');
         if (!linha) return;
