@@ -7,43 +7,18 @@
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <header id="main-header"></header> <div class="container"></div>
     <div class="container">
-        <div style="text-align: center;">
-            <h1>Variações para: <span id="nomeModelo">Carregando...</span></h1>
-            <p style="margin: 15px 0;">
+        <div class="list-section">
+            <div class="page-header">
+                <h1>Variações para: <span id="nomeModelo">Carregando...</span></h1>
+                <button id="btnAdicionarVariacao" class="btn-adicionar">+ Adicionar Nova Variação</button>
+            </div>
+
+            <p style="text-align: center; margin-top: 15px;">
                 <a href="modelos.html" style="color: #9a7bf8; text-decoration: none;">&larr; Voltar para a lista de modelos</a>
             </p>
-        </div>
 
-        <hr class="separator">
-
-        <div class="form-section">
-            <h2 id="formVariacaoTitulo">Adicionar Nova Variação</h2>
-            <form id="formVariacao">
-                <input type="hidden" id="editVariacaoId">
-
-                <div>
-                    <label for="sku">SKU da Variação:</label>
-                    <input type="text" id="sku" name="sku" required>
-                </div>
-                <div>
-                    <label for="preco_venda">Preço de Venda:</label>
-                    <input type="number" id="preco_venda" name="preco_venda" step="0.01" required>
-                </div>
-                <div>
-                    <label for="valores_atributos">Atributos (segure Ctrl para selecionar vários):</label>
-                    <select id="valores_atributos" name="valores_atributos" multiple required size="8"></select>
-                </div>
-
-                <button type="submit">Adicionar Variação</button>
-            </form>
-            <div id="mensagemRetornoForm" class="mensagem"></div>
-        </div>
-
-        <hr class="separator">
-
-        <div class="list-section">
-            <h2>Variações Cadastradas</h2>
             <div class="table-container">
                 <table>
                     <thead>
@@ -63,6 +38,40 @@
         </div>
     </div>
 
+    <div id="modalVariacao" class="modal-overlay modal-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="formVariacaoTitulo">Adicionar Nova Variação</h2>
+                <button id="btnFecharModal" class="btn-fechar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formVariacao">
+                    <input type="hidden" id="editVariacaoId">
+
+                    <div>
+                        <label for="sku">SKU da Variação:</label>
+                        <input type="text" id="sku" name="sku" required>
+                    </div>
+                    <div>
+                        <label for="preco_venda">Preço de Venda:</label>
+                        <input type="number" id="preco_venda" name="preco_venda" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="valores_atributos">Atributos (segure Ctrl para selecionar vários):</label>
+                        <select id="valores_atributos" name="valores_atributos" multiple required size="8"></select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" id="btnSalvarVariacao">Salvar</button>
+                        <button type="button" id="btnCancelarModal">Cancelar</button>
+                    </div>
+                </form>
+                <div id="mensagemRetornoForm" class="mensagem"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/variacoes.js"></script>
+    <script src="js/main.js"></script> <script src="js/dashboard.js"></script> 
 </body>
 </html>

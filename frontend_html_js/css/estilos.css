@@ -1,325 +1,108 @@
-/* Resets básicos e configurações globais */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* === CONFIGURAÇÕES GLOBAIS E VARIÁVEIS DE COR === */
+:root {
+    --cor-fundo: #1A202C;
+    --cor-container: #2D3748;
+    --cor-fundo-input: #1A202C;
+    --cor-borda: #4A5568;
+    --cor-texto-principal: #E2E8F0;
+    --cor-texto-cabecalho: #FFFFFF;
+    --cor-destaque: #4299E1;
+    --cor-destaque-hover: #63B3ED;
+    --cor-sucesso: #38A169;
+    --cor-erro: #E53E3E;
+    --cor-botao-editar: #d69e2e;
+    --cor-botao-excluir: #c53030;
+    --cor-botao-visualizar: #2b6cb0;
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === ESTILOS DO BODY E LAYOUT PRINCIPAL (COM A CORREÇÃO) === */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Degradê preto "espelhado" para o fundo */
-    background: linear-gradient(135deg, #1a1a1a 25%, #2b2b2b 50%, #1a1a1a 75%);
-    background-size: 400% 400%; /* Para animar o gradiente */
-    animation: gradientAnimation 15s ease infinite;
-    color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* <<<--- CORREÇÃO PRINCIPAL: Empilha os itens verticalmente */
+    align-items: center;     /* <<<--- Centraliza tudo horizontalmente na página */
     min-height: 100vh;
-    padding: 20px;
-    overflow-x: hidden; /* Evita scroll horizontal desnecessário */
+    padding: 0 1rem 2rem 1rem; /* Removemos o padding de cima para o header colar no topo */
 }
 
-/* Animação para o gradiente do body */
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Estilo específico para centralizar o CONTEÚDO das páginas de autenticação */
+body.auth-page .container {
+    /* Para garantir que ele fique centralizado no espaço restante */
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .container {
-    background: rgba(20, 20, 30, 0.85); /* Fundo escuro semi-transparente para o "efeito vidro" */
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), /* Sombra mais forte para profundidade */
-                0 0 10px rgba(120, 120, 255, 0.3); /* Um brilho sutil azulado/roxo */
+    background: var(--cor-container);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 500px;
-    backdrop-filter: blur(5px); /* Efeito "frosted glass" - pode não funcionar em todos os navegadores */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil para o "vidro" */
+    max-width: 900px;
+    margin-top: 2rem; /* Adiciona um espaço padrão abaixo do menu */
 }
 
-h1 {
-    text-align: center;
-    color: #e0e0e0;
-    margin-bottom: 25px;
-    font-size: 2em;
-    letter-spacing: 1px;
+body.auth-page .container {
+    max-width: 450px;
+    margin-top: 0; /* Remove a margem do topo na página de login para uma centralização melhor */
 }
 
-form#formRegistro div {
-    margin-bottom: 20px;
-}
+/* ... O resto do seu CSS continua exatamente o mesmo ... */
 
-label {
-    display: block;
-    color: #c0c0c0;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"] {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.3); /* Fundo do input escuro e semi-transparente */
-    color: #f0f0f0;
-    font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus {
-    outline: none;
-    border-color: #7f5af0; /* Um roxo vibrante para o foco */
-    box-shadow: 0 0 8px rgba(127, 90, 240, 0.5);
-}
-
-button[type="submit"] {
-    width: 100%;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    /* Degradê para o botão */
-    background: linear-gradient(145deg, #7f5af0, #a857f0);
-    color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-button[type="submit"]:hover {
-    background: linear-gradient(145deg, #9a7bf8, #c07bf8);
-    box-shadow: 0 6px 20px rgba(127, 90, 240, 0.4);
-    transform: translateY(-2px);
-}
-
-button[type="submit"]:active {
-    transform: translateY(0px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.mensagem { /* Para a div#mensagemRetorno */
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.mensagem.sucesso {
-    background-color: rgba(40, 167, 69, 0.8); /* Verde para sucesso */
-    color: white;
-    border: 1px solid rgba(40, 167, 69, 1);
-}
-
-.mensagem.erro {
-    background-color: rgba(220, 53, 69, 0.8); /* Vermelho para erro */
-    color: white;
-    border: 1px solid rgba(220, 53, 69, 1);
-}
-
-/* Para placeholders nos inputs */
-::placeholder {
-    color: #888;
-    opacity: 1; /* Firefox */
-}
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #888;
-}
-::-ms-input-placeholder { /* Microsoft Edge */
-    color: #888;
-}
-/* Estilos adicionais para a página de matérias-primas */
-
-.separator {
-    border: none;
-    height: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin: 40px 0;
-}
-
-.list-section h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.8em;
-}
-
-.table-container {
-    overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-thead th {
-    background-color: rgba(127, 90, 240, 0.2); /* Fundo roxo semi-transparente para o cabeçalho */
-    color: #f0f0f0;
-    font-size: 0.9em;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Estilizando o <select> para combinar com os inputs */
-select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #f0f0f0;
-    font-size: 1em;
-    -webkit-appearance: none; /* Remove a aparência padrão no Chrome/Safari */
-    -moz-appearance: none; /* Remove a aparência padrão no Firefox */
-    appearance: none;
-    /* Adiciona uma seta customizada */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c0c0c0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-position: right 15px top 50%;
-    background-size: .65em auto;
-}
-/* Estilos para botões de ação na tabela */
-.btn-editar, .btn-excluir {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    font-size: 0.8em;
-    margin: 0 2px;
-}
-
-.btn-editar {
-    background-color: #17a2b8; /* Azul/Ciano */
-}
-
-.btn-editar:hover {
-    background-color: #138496;
-}
-
-.btn-excluir {
-    background-color: #dc3545; /* Vermelho */
-}
-
-.btn-excluir:hover {
-    background-color: #c82333;
-}
-
-/*frontende modelos*/
-
-/* Em estilos.css, encontre o seletor dos inputs e adicione textarea */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-textarea { /* Adicione textarea aqui */
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #f0f0f0;
-    font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Garante a mesma fonte */
-}
-
-/* Faça o mesmo para o :focus */
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-textarea:focus { /* Adicione textarea aqui */
-    outline: none;
-    border-color: #7f5af0;
-    box-shadow: 0 0 8px rgba(127, 90, 240, 0.5);
-}
-/* Adicionar em estilos.css */
-.btn-visualizar {
-    background-color: #28a745; /* Verde */
-    display: inline-block;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
-    font-size: 0.8em;
-    margin: 0 2px;
-    line-height: 1.5; /* Alinha o texto verticalmente */
-}
-.btn-visualizar:hover {
-    background-color: #218838;
-}
-/* ===== ESTILOS ADICIONAIS PARA TABELAS E BOTÕES DE AÇÃO ===== */
-
-/* Garante que o texto nas células da tabela esteja bem alinhado verticalmente */
-td {
-    vertical-align: middle;
-}
-
-/* Estilo para a última célula de cada linha (a coluna de Ações) */
-td:last-child {
-    text-align: center; /* Centraliza os botões na célula */
-    white-space: nowrap; /* Impede que os botões quebrem a linha em telas menores */
-}
-
-/* Estilos base para todos os botões de ação (Editar, Excluir, Visualizar) */
-.btn-editar, .btn-excluir, .btn-visualizar {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    font-size: 0.85em;
-    font-weight: bold;
-    margin: 0 3px; /* Adiciona um pequeno espaço entre os botões */
-    text-decoration: none; /* Remove o sublinhado dos links que parecem botões */
-    display: inline-block; /* Garante que links <a> se comportem como botões */
-    transition: transform 0.2s ease;
-}
-
-.btn-editar:hover, .btn-excluir:hover, .btn-visualizar:hover {
-    transform: translateY(-2px); /* Efeito de "levantar" ao passar o mouse */
-}
-
-/* Cores específicas para cada botão */
-.btn-visualizar {
-    background-color: #28a745; /* Verde */
-}
-.btn-visualizar:hover {
-    background-color: #218838;
-}
-
-.btn-editar {
-    background-color: #007bff; /* Azul */
-}
-.btn-editar:hover {
-    background-color: #0069d9;
-}
-
-.btn-excluir {
-    background-color: #dc3545; /* Vermelho */
-}
-.btn-excluir:hover {
-    background-color: #c82333;
-}
+.separator { border: none; height: 1px; background-color: var(--cor-borda); margin: 2.5rem 0; }
+h1 { text-align: center; color: var(--cor-texto-cabecalho); margin-bottom: 1.5rem; font-size: 2rem; }
+h2 { text-align: center; color: var(--cor-texto-cabecalho); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 500; }
+a { color: var(--cor-destaque); text-decoration: none; transition: color 0.2s ease-in-out; }
+a:hover { text-decoration: underline; color: var(--cor-destaque-hover); }
+.form-section { max-width: 500px; margin: 0 auto 2rem auto; }
+form div { margin-bottom: 1.25rem; }
+label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--cor-borda); border-radius: 8px; background-color: var(--cor-fundo-input); color: var(--cor-texto-principal); font-size: 1rem; transition: all 0.2s ease-in-out; font-family: inherit; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--cor-destaque); box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); }
+select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23E2E8F0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: .65em auto; }
+button, .btn { padding: 0.8rem 1rem; border: none; border-radius: 8px; background-color: var(--cor-destaque); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease-in-out; text-align: center; }
+button:hover, .btn:hover { background-color: var(--cor-destaque-hover); transform: translateY(-2px); }
+button[type="submit"] { width: 100%; }
+.btn-adicionar { width: auto; background-color: var(--cor-sucesso); }
+.btn-adicionar:hover { background-color: #48bb78; }
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--cor-borda); vertical-align: middle; }
+thead th { background-color: #384252; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+tbody tr:hover { background-color: #384252; }
+td:last-child { text-align: right; white-space: nowrap; }
+.btn-editar, .btn-excluir, .btn-visualizar { padding: 6px 12px; border: none; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin-left: 8px; text-decoration: none; display: inline-block; color: white; }
+.btn-visualizar { background-color: var(--cor-botao-visualizar); }
+.btn-editar { background-color: var(--cor-botao-editar); }
+.btn-excluir { background-color: var(--cor-botao-excluir); }
+#main-header { background-color: var(--cor-container); border-bottom: 1px solid var(--cor-borda); padding: 0 2rem; position: sticky; top: 0; z-index: 900; width: 100%; /* Faz o header ocupar a largura toda */ }
+.nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; max-width: 1200px; margin: 0 auto; }
+.nav-logo { font-size: 1.5rem; font-weight: bold; color: var(--cor-texto-cabecalho); text-decoration: none; }
+.nav-logo:hover { color: var(--cor-destaque); text-decoration: none; }
+.nav-menu a { color: var(--cor-texto-principal); text-decoration: none; margin: 0 1rem; font-weight: 500; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s ease-in-out; }
+.nav-menu a:hover { color: var(--cor-texto-cabecalho); border-bottom-color: var(--cor-destaque); text-decoration: none; }
+.nav-user { display: flex; align-items: center; gap: 1rem; }
+#logoutButtonNav, .nav-login-btn { background-color: var(--cor-destaque); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; }
+#logoutButtonNav:hover, .nav-login-btn:hover { background-color: var(--cor-destaque-hover); }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.3s ease; }
+.modal-overlay.modal-hidden { opacity: 0; pointer-events: none; }
+.modal-content { background: var(--cor-container); padding: 2rem; border-radius: 12px; border: 1px solid var(--cor-borda); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 100%; max-width: 500px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.modal-header h2 { color: var(--cor-destaque); margin: 0; }
+.btn-fechar { background: none; border: none; font-size: 2rem; color: #888; cursor: pointer; line-height: 1; }
+.btn-fechar:hover { color: white; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--cor-borda); }
+#btnSalvarVariacao, #btnCancelarModal { width: auto; }
+#btnCancelarModal { background-color: #4A5568; }
+#btnCancelarModal:hover { background-color: #718096; }
+.mensagem { margin-top: 1rem; padding: 1rem; border-radius: 8px; text-align: center; font-weight: bold; }
+.mensagem.sucesso { background-color: rgba(56, 161, 105, 0.2); border: 1px solid var(--cor-sucesso); color: var(--cor-sucesso); }
+.mensagem.erro { background-color: rgba(229, 62, 62, 0.2); border: 1px solid var(--cor-erro); color: var(--cor-erro); }
+.page-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+@media (max-width: 768px) { .container { padding: 1.5rem; } .nav-menu { display: none; } #main-header { padding: 0 1rem; } }
+@media (max-width: 600px) { h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } .page-header { flex-direction: column; align-items: stretch; } .page-header h1 { text-align: center; } .btn-adicionar { width: 100%; } }
