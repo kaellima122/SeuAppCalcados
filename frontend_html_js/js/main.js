@@ -2,7 +2,7 @@
 function renderizarNavbar() {
     // Encontra o elemento <header> no HTML que servirá como container para o menu
     const headerContainer = document.getElementById('main-header');
-    if (!headerContainer) return; // Se não houver container na página, não faz nada
+    if (!headerContainer) return;
 
     // Pega o nome do usuário e o token do localStorage
     const username = localStorage.getItem('username');
@@ -10,11 +10,11 @@ function renderizarNavbar() {
 
     let navLinks = '';
     let userActions = '';
-    let logoLink = 'login.html'; // Link padrão do logo para quem não está logado
+    let logoLink = 'login.html'; 
 
     // Verifica se o usuário ESTÁ logado
     if (token && username) {
-        logoLink = 'dashboard.html'; // Se logado, o logo aponta para o dashboard
+        logoLink = 'dashboard.html';
 
         // Monta os links de navegação para um usuário logado
         navLinks = `
@@ -22,7 +22,7 @@ function renderizarNavbar() {
                 <a href="dashboard.html">Dashboard</a>
                 <a href="modelos.html">Modelos</a>
                 <a href="materias_primas.html">Matérias-Primas</a>
-                <a href="ordens_producao.html">Ordens de Produção</a>
+                <a href="fornecedores.html">Fornecedores</a> <a href="ordens_producao.html">Ordens de Produção</a>
             </nav>
         `;
 
@@ -36,12 +36,10 @@ function renderizarNavbar() {
     } 
     // Se o usuário NÃO está logado
     else {
-        // Deixa os links de navegação vazios
         navLinks = '<nav class="nav-menu"></nav>';
         
-        // Mostra apenas um botão de Login se não estiver na própria página de login
         if (window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('registrar.html')) {
-            userActions = '<div class="nav-user"></div>'; // Deixa vazio na tela de login/registro
+            userActions = '<div class="nav-user"></div>';
         } else {
             userActions = `
                 <div class="nav-user">
