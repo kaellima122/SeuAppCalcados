@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordens de Produção - Sistema de Calçados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header id="main-header"></header>
+
+    <div class="container">
+        <div class="form-section">
+            <h1>Criar Nova Ordem de Produção</h1>
+            <form id="formOrdemProducao">
+                <div>
+                    <label for="numero_op">Número da OP (ex: OP-2025-001):</label>
+                    <input type="text" id="numero_op" name="numero_op" required>
+                </div>
+                <div>
+                    <label for="produto_variacao_id">ID da Variação do Produto (SKU):</label>
+                    <input type="number" id="produto_variacao_id" name="produto_variacao_id" placeholder="ID de uma variação existente" required>
+                </div>
+                <div>
+                    <label for="quantidade">Quantidade a Produzir:</label>
+                    <input type="number" id="quantidade" name="quantidade" min="1" required>
+                </div>
+                <div>
+                    <label for="data_previsao_inicio">Previsão de Início:</label>
+                    <input type="date" id="data_previsao_inicio" name="data_previsao_inicio" required>
+                </div>
+                <div>
+                    <label for="data_previsao_termino">Previsão de Término:</label>
+                    <input type="date" id="data_previsao_termino" name="data_previsao_termino" required>
+                </div>
+                <button type="submit">Criar Ordem de Produção</button>
+            </form>
+            <div id="mensagemRetornoForm" class="mensagem"></div>
+        </div>
+
+        <hr class="separator">
+
+        <div class="list-section">
+            <h2>Ordens de Produção Ativas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Número da OP</th>
+                        <th>Produto (SKU)</th>
+                        <th>Quantidade</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaOrdensProducao">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/ordens_producao.js"></script>
+</body>
+</html>

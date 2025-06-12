@@ -8,30 +8,55 @@ function renderizarNavbar() {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('authToken');
 
-    let menuHtml = `
-        <div class="nav-container">
-            <a href="dashboard.html" class="nav-logo">Sistema Calçados</a>
+    let navLinks = '';
+    let userActions = '';
+    let logoLink = 'login.html'; // Link padrão do logo para quem não está logado
+
+    // Verifica se o usuário ESTÁ logado
+    if (token && username) {
+        logoLink = 'dashboard.html'; // Se logado, o logo aponta para o dashboard
+
+        // Monta os links de navegação para um usuário logado
+        navLinks = `
             <nav class="nav-menu">
                 <a href="dashboard.html">Dashboard</a>
                 <a href="modelos.html">Modelos</a>
                 <a href="materias_primas.html">Matérias-Primas</a>
-                </nav>
-            <div class="nav-user">
-    `;
-
-    if (token && username) {
-        // Se o usuário está logado, mostra o nome e o botão de logout
-        menuHtml += `
-            <span class="nav-username">Olá, ${username}</span>
-            <button id="logoutButtonNav">Sair</button>
+                <a href="ordens_producao.html">Ordens de Produção</a>
+            </nav>
         `;
-    } else {
-        // Se não está logado, mostra o botão de login
-        menuHtml += `<a href="login.html" class="nav-login-btn">Login</a>`;
+
+        // Monta a área do usuário com nome e botão de sair
+        userActions = `
+            <div class="nav-user">
+                <span class="nav-username">Olá, ${username}</span>
+                <button id="logoutButtonNav">Sair</button>
+            </div>
+        `;
+    } 
+    // Se o usuário NÃO está logado
+    else {
+        // Deixa os links de navegação vazios
+        navLinks = '<nav class="nav-menu"></nav>';
+        
+        // Mostra apenas um botão de Login se não estiver na própria página de login
+        if (window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('registrar.html')) {
+            userActions = '<div class="nav-user"></div>'; // Deixa vazio na tela de login/registro
+        } else {
+            userActions = `
+                <div class="nav-user">
+                    <a href="login.html" class="nav-login-btn">Login</a>
+                </div>
+            `;
+        }
     }
 
-    menuHtml += `
-            </div>
+    // Junta todas as partes para formar o HTML final do menu
+    const menuHtml = `
+        <div class="nav-container">
+            <a href="${logoLink}" class="nav-logo">Sistema Calçados</a>
+            ${navLinks}
+            ${userActions}
         </div>
     `;
 
@@ -41,11 +66,11 @@ function renderizarNavbar() {
     const logoutButtonNav = document.getElementById('logoutButtonNav');
     if (logoutButtonNav) {
         logoutButtonNav.addEventListener('click', function() {
-            const headers = { 'Authorization': `Token ${token}` };
-            // Chama a API de logout
+            const currentToken = localStorage.getItem('authToken');
+            const headers = { 'Authorization': `Token ${currentToken}` };
+            
             fetch('http://127.0.0.1:8000/api/usuarios/logout/', { method: 'POST', headers: headers })
                 .finally(() => {
-                    // Independentemente da resposta do servidor, limpa o localStorage e redireciona
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('username');
                     alert('Você foi desconectado.');
