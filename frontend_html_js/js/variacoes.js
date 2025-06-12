@@ -1,34 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona os elementos da página que vamos manipular
+    // --- SELEÇÃO DE ELEMENTOS ---
     const nomeModeloSpan = document.getElementById('nomeModelo');
     const tabelaVariacoesBody = document.getElementById('tabelaVariacoes');
-    
-    // Pega o token de autenticação guardado no navegador
-    const token = localStorage.getItem('authToken');
+    const formVariacao = document.getElementById('formVariacao');
+    const mensagemRetornoForm = document.getElementById('mensagemRetornoForm');
+    const valoresAtributosSelect = document.getElementById('valores_atributos');
+    const editVariacaoIdInput = document.getElementById('editVariacaoId'); // Não esqueça de adicionar <input type="hidden" id="editVariacaoId"> no seu HTML
+    const formButton = formVariacao.querySelector('button[type="submit"]');
+    const formTitle = document.getElementById('formVariacaoTitulo');
 
-    // Pega o ID do modelo a partir dos parâmetros da URL
+    // --- CONFIGURAÇÃO INICIAL ---
+    const token = localStorage.getItem('authToken');
     const urlParams = new URLSearchParams(window.location.search);
     const modeloId = urlParams.get('modelo_id');
 
-    // Se não encontrar um ID de modelo na URL, exibe um erro e para a execução
-    if (!modeloId) {
-        nomeModeloSpan.textContent = "ERRO: ID do Modelo não especificado na URL!";
-        nomeModeloSpan.style.color = 'red';
+    if (!modeloId || !token) {
+        alert('Erro: ID do Modelo ou Token de autenticação não encontrado. Redirecionando para login.');
+        window.location.href = 'login.html';
         return;
     }
 
-    // Define as URLs da API que vamos usar
+    const apiUrlVariacoes = `http://127.0.0.1:8000/api/produtos/variacoes/`;
     const apiUrlModeloDetalhe = `http://127.0.0.1:8000/api/produtos/modelos/${modeloId}/`;
-    const apiUrlVariacoes = `http://127.0.0.1:8000/api/produtos/variacoes/`; // URL base
-    const apiUrlVariacoesListaFiltrada = `${apiUrlVariacoes}?produto_modelo=${modeloId}`; // URL para listar
+    const apiUrlValoresAtributos = `http://127.0.0.1:8000/api/produtos/valores-atributos/`;
 
-    // --- Função ajudante para criar os cabeçalhos com o token ---
     function getAuthHeaders(includeContentType = true) {
-        if (!token) {
-            alert('Você não está autenticado. Por favor, faça login.');
-            window.location.href = 'login.html';
-            return null; // Retorna nulo para parar a execução
-        }
         const headers = { 'Authorization': `Token ${token}` };
         if (includeContentType) {
             headers['Content-Type'] = 'application/json';
@@ -36,87 +32,143 @@ document.addEventListener('DOMContentLoaded', function() {
         return headers;
     }
 
-    const headers = getAuthHeaders();
-    if (!headers) return; 
+    // --- FUNÇÕES PRINCIPAIS ---
 
-    // --- 1. Busca os detalhes do modelo para exibir no título da página ---
-    fetch(apiUrlModeloDetalhe, { headers: getAuthHeaders(false) })
-        .then(response => response.json())
-        .then(data => {
-            nomeModeloSpan.textContent = `"${data.nome_modelo}"`;
-        });
-
-    // --- 2. Função para buscar e exibir a lista de variações para este modelo ---
+    // 1. Função para buscar e listar as variações
     function listarVariacoes() {
-        fetch(apiUrlVariacoesListaFiltrada, { headers: getAuthHeaders(false) })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao buscar as variações.');
-                return response.json();
-            })
+        fetch(`<span class="math-inline">\{apiUrlVariacoes\}?produto\_modelo\=</span>{modeloId}`, { headers: getAuthHeaders(false) })
+            .then(res => res.json())
             .then(data => {
-                tabelaVariacoesBody.innerHTML = ''; // Limpa a tabela
+                tabelaVariacoesBody.innerHTML = '';
+                data.forEach(variacao => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-id', variacao.id);
+                    const atributos = variacao.valores_atributos_nomes.join(', ');
 
-                if (data.length === 0) {
-                    tabelaVariacoesBody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Nenhuma variação cadastrada para este modelo.</td></tr>`;
-                } else {
-                    data.forEach(variacao => {
-                        const tr = document.createElement('tr');
-                        tr.setAttribute('data-id', variacao.id);
-                        const atributos = variacao.valores_atributos_nomes ? variacao.valores_atributos_nomes.join(', ') : 'N/A';
-                        
-                        tr.innerHTML = `
-                            <td>${variacao.id}</td>
-                            <td>${variacao.sku}</td>
-                            <td>R$ ${parseFloat(variacao.preco_venda).toFixed(2)}</td>
-                            <td>${variacao.saldo_em_estoque}</td>
-                            <td>${atributos}</td>
-                            <td>
-                                <button class="btn-editar">Editar</button>
-                                <button class="btn-excluir">Excluir</button>
-                            </td>
-                        `;
-                        tabelaVariacoesBody.appendChild(tr);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao listar variações:', error);
-                tabelaVariacoesBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">${error.message}</td></tr>`;
+                    let linhaHtml = '<td>' + variacao.id + '</td>';
+                    linhaHtml += '<td>' + variacao.sku + '</td>';
+                    linhaHtml += '<td>R$ ' + parseFloat(variacao.preco_venda).toFixed(2) + '</td>';
+                    linhaHtml += '<td>' + variacao.saldo_em_estoque + '</td>';
+                    linhaHtml += '<td>' + atributos + '</td>';
+                    linhaHtml += '<td><button class="btn-editar">Editar</button><button class="btn-excluir">Excluir</button></td>';
+                    tr.innerHTML = linhaHtml;
+
+                    tabelaVariacoesBody.appendChild(tr);
+                });
             });
     }
 
-    // --- NOVO BLOCO DE CÓDIGO PARA DELEÇÃO ---
-    tabelaVariacoesBody.addEventListener('click', function(event) {
-        // Verifica se o elemento clicado foi um botão com a classe 'btn-excluir'
-        if (event.target.classList.contains('btn-excluir')) {
-            const linha = event.target.closest('tr');
-            const idVariacao = linha.getAttribute('data-id');
-
-            if (confirm(`Tem certeza de que deseja excluir a variação com ID ${idVariacao}?`)) {
-                // Se o usuário confirmar, faz a requisição DELETE
-                fetch(`${apiUrlVariacoes}${idVariacao}/`, {
-                    method: 'DELETE',
-                    headers: getAuthHeaders(false) // Apenas o header de autorização é necessário
-                })
-                .then(response => {
-                    if (response.status === 204) { // 204 No Content = Sucesso na exclusão
-                        alert('Variação excluída com sucesso!');
-                        listarVariacoes(); // Atualiza a tabela para remover o item
-                    } else {
-                        // Tenta mostrar uma mensagem de erro da API, se houver
-                        response.json().then(data => {
-                            alert(`Erro ao excluir: ${data.detail || 'Erro desconhecido.'}`);
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro ao excluir variação:', error);
-                    alert('Não foi possível conectar ao servidor para excluir o item.');
+    // 2. Função para buscar e preencher o dropdown de atributos
+    function popularAtributos() {
+        fetch(apiUrlValoresAtributos, { headers: getAuthHeaders(false) })
+            .then(res => res.json())
+            .then(data => {
+                valoresAtributosSelect.innerHTML = '';
+                data.forEach(valor => {
+                    const option = document.createElement('option');
+                    option.value = valor.id;
+                    option.textContent = `${valor.atributo_nome}: ${valor.valor}`;
+                    valoresAtributosSelect.appendChild(option);
                 });
+            });
+    }
+
+    // 3. Função para preparar o formulário para edição
+    function prepararEdicao(id) {
+        fetch(`<span class="math-inline">\{apiUrlVariacoes\}</span>{id}/`, { headers: getAuthHeaders(false) })
+            .then(res => res.json())
+            .then(data => {
+                formTitle.textContent = 'Editar Variação';
+                document.getElementById('sku').value = data.sku;
+                document.getElementById('preco_venda').value = data.preco_venda;
+                editVariacaoIdInput.value = data.id;
+
+                const valoresIds = data.valores_atributos;
+                for (const option of valoresAtributosSelect.options) {
+                    option.selected = valoresIds.includes(parseInt(option.value));
+                }
+                formButton.textContent = 'Salvar Alterações';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+    }
+
+    // 4. Função para resetar o formulário
+    function resetarFormulario() {
+        formVariacao.reset();
+        editVariacaoIdInput.value = '';
+        formButton.textContent = 'Adicionar Variação';
+        formTitle.textContent = 'Adicionar Nova Variação';
+        for (const option of valoresAtributosSelect.options) { option.selected = false; }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Listener para o formulário (Adicionar e Editar)
+    formVariacao.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const selectedOptions = Array.from(valoresAtributosSelect.selectedOptions).map(option => option.value);
+        if (selectedOptions.length === 0) {
+            alert("Por favor, selecione pelo menos um atributo.");
+            return;
+        }
+        const dadosVariacao = {
+            produto_modelo: modeloId,
+            sku: document.getElementById('sku').value,
+            preco_venda: document.getElementById('preco_venda').value,
+            valores_atributos: selectedOptions
+        };
+        const idParaEditar = editVariacaoIdInput.value;
+        let url = apiUrlVariacoes;
+        let method = 'POST';
+        if (idParaEditar) {
+            url = `<span class="math-inline">\{apiUrlVariacoes\}</span>{idParaEditar}/`;
+            method = 'PUT';
+        }
+        fetch(url, {
+            method: method,
+            headers: getAuthHeaders(),
+            body: JSON.stringify(dadosVariacao)
+        })
+        .then(res => res.json().then(data => ({ status: res.status, body: data })))
+        .then(dataObj => {
+            if (dataObj.status === 201 || dataObj.status === 200) {
+                const acao = method === 'POST' ? 'criada' : 'atualizada';
+                alert(`Variação "${dataObj.body.sku}" ${acao} com sucesso!`);
+                resetarFormulario();
+                listarVariacoes();
+            } else {
+                let erroMsg = "Erro:\n";
+                for(const campo in dataObj.body) { erroMsg += `${campo}: ${dataObj.body[campo].join(', ')}\n`;}
+                alert(erroMsg);
+            }
+        });
+    });
+
+    // Listener para a tabela (Editar e Excluir)
+    tabelaVariacoesBody.addEventListener('click', function(event) {
+        const linha = event.target.closest('tr');
+        if (!linha) return;
+        const idVariacao = linha.getAttribute('data-id');
+
+        if (event.target.classList.contains('btn-editar')) {
+            prepararEdicao(idVariacao);
+        } else if (event.target.classList.contains('btn-excluir')) {
+            if (confirm(`Tem certeza que deseja excluir a variação ID ${idVariacao}?`)) {
+                fetch(`<span class="math-inline">\{apiUrlVariacoes\}</span>{idVariacao}/`, { method: 'DELETE', headers: getAuthHeaders(false) })
+                    .then(response => {
+                        if (response.status === 204) {
+                            alert('Variação excluída com sucesso!');
+                            listarVariacoes();
+                        } else {
+                            response.json().then(data => alert(`Erro ao excluir: ${data.detail || 'Erro desconhecido.'}`));
+                        }
+                    });
             }
         }
     });
 
-    // --- Chamada inicial para carregar a lista quando a página abre ---
+    // --- CHAMADAS INICIAIS ---
+    fetch(apiUrlModeloDetalhe, { headers: getAuthHeaders(false) }).then(res => res.json()).then(data => { nomeModeloSpan.textContent = `"${data.nome_modelo}"`; });
+    popularAtributos();
     listarVariacoes();
 });

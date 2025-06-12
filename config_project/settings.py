@@ -29,9 +29,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Apps de Terceiros
     'corsheaders',
     'rest_framework',
-    'rest_framework.authtoken', # App para gerenciar os tokens
+    'rest_framework.authtoken',
+    'django_extensions', # <<<--- NOSSA NOVA FERRAMENTA DE DEBUG ADICIONADA AQUI
+
+    # Meus Apps
     'usuarios.apps.UsuariosConfig',
     'produtos.apps.ProdutosConfig',
     'producao.apps.ProducaoConfig',
@@ -108,16 +113,12 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-# --- CONFIGURAÇÃO FINAL E PROFISSIONAL DO DJANGO REST FRAMEWORK ---
-# AQUI ESTÁ A MUDANÇA:
+# Configurações do Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # Define que a ÚNICA forma de autenticação para a API será por Token.
-        # Isso resolve o conflito de CSRF e é o padrão para APIs modernas.
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # E por padrão, o acesso a QUALQUER endpoint da API exige um token válido.
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
