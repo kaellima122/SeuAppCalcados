@@ -3,23 +3,23 @@ URL configuration for config_project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include # <<< ADICIONEI 'include' AQUI
+from django.urls import path, include
+
+# --- NOVA IMPORTAÇÃO ---
+# Importamos a view da homepage que criamos no app 'usuarios'
+from usuarios.views import homepage_view
 
 urlpatterns = [
+    # --- ROTA PRINCIPAL ADICIONADA ---
+    # A string vazia '' significa a raiz do site (ex: http://127.0.0.1:8000/)
+    # Ela vai chamar a nossa homepage_view.
+    path('', homepage_view, name='homepage'),
+
+    # --- Rotas existentes ---
     path('admin/', admin.site.urls),
-    path('api/usuarios/', include('usuarios.urls')), # <<< ESTA É A LINHA QUE FALTAVA (ou estava incorreta)
+    path('api/usuarios/', include('usuarios.urls')),
     path('api/produtos/', include('produtos.urls')),
     path('api/producao/', include('producao.urls')), 
 ]

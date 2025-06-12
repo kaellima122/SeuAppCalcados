@@ -8,13 +8,42 @@
 </head>
 <body>
     <div class="container">
-        <div class="list-section">
+        <div style="text-align: center;">
             <h1>Variações para: <span id="nomeModelo">Carregando...</span></h1>
-            
-            <p style="text-align: center; margin-top: 15px;">
+            <p style="margin: 15px 0;">
                 <a href="modelos.html" style="color: #9a7bf8; text-decoration: none;">&larr; Voltar para a lista de modelos</a>
             </p>
+        </div>
 
+        <hr class="separator">
+
+        <div class="form-section">
+            <h2 id="formVariacaoTitulo">Adicionar Nova Variação</h2>
+            <form id="formVariacao">
+                <input type="hidden" id="editVariacaoId">
+
+                <div>
+                    <label for="sku">SKU da Variação:</label>
+                    <input type="text" id="sku" name="sku" required>
+                </div>
+                <div>
+                    <label for="preco_venda">Preço de Venda:</label>
+                    <input type="number" id="preco_venda" name="preco_venda" step="0.01" required>
+                </div>
+                <div>
+                    <label for="valores_atributos">Atributos (segure Ctrl para selecionar vários):</label>
+                    <select id="valores_atributos" name="valores_atributos" multiple required size="8"></select>
+                </div>
+
+                <button type="submit">Adicionar Variação</button>
+            </form>
+            <div id="mensagemRetornoForm" class="mensagem"></div>
+        </div>
+
+        <hr class="separator">
+
+        <div class="list-section">
+            <h2>Variações Cadastradas</h2>
             <div class="table-container">
                 <table>
                     <thead>
@@ -32,8 +61,7 @@
                 </table>
             </div>
         </div>
-
-        </div>
+    </div>
 
     <script src="js/variacoes.js"></script>
 </body>

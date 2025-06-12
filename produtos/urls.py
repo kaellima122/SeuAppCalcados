@@ -23,3 +23,20 @@ router.register(r'fichas-tecnicas', FichaTecnicaViewSet, basename='fichatecnica'
 urlpatterns = [
     path('', include(router.urls)),
 ]
+# Em produtos/urls.py
+
+# ... (importações existentes) ...
+from .views import (
+    # ...
+    FichaTecnicaViewSet, ValorAtributoGradeViewSet # Adicione ValorAtributoGradeViewSet
+)
+
+router = DefaultRouter()
+# ... (registros existentes) ...
+router.register(r'fichas-tecnicas', FichaTecnicaViewSet, basename='fichatecnica')
+# --- NOVA ROTA REGISTRADA AQUI ---
+router.register(r'valores-atributos', ValorAtributoGradeViewSet, basename='valoratributograde')
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
