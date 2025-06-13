@@ -1,11 +1,11 @@
+
+
 from rest_framework import serializers
-# Adicionamos ValorAtributoGrade à lista de importações
 from .models import (
     MateriaPrima, Fornecedor, ProdutoModelo, ProdutoVariacao,
     FichaTecnica, ItemFichaTecnica, ValorAtributoGrade
 )
 
-# --- Serializadores existentes (sem alterações) ---
 class FornecedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fornecedor
@@ -30,29 +30,29 @@ class ProdutoVariacaoSerializer(serializers.ModelSerializer):
         model = ProdutoVariacao
         fields = ['id', 'sku', 'produto_modelo', 'produto_modelo_nome', 'codigo_barras', 'preco_venda', 'saldo_em_estoque', 'valores_atributos', 'valores_atributos_nomes']
 
+
+# --- SERIALIZADORES CORRIGIDOS PARA FICHA TÉCNICA ---
+
 class ItemFichaTecnicaSerializer(serializers.ModelSerializer):
+    # Campos extras para leitura, para facilitar a vida do frontend
+    materia_prima_nome = serializers.CharField(source='materia_prima.nome', read_only=True)
+    unidade_medida = serializers.CharField(source='materia_prima.get_unidade_medida_display', read_only=True)
+
     class Meta:
         model = ItemFichaTecnica
-        fields = ['materia_prima', 'quantidade']
+        fields = ['materia_prima', 'quantidade', 'materia_prima_nome', 'unidade_medida']
 
 class FichaTecnicaSerializer(serializers.ModelSerializer):
-    itens = ItemFichaTecnicaSerializer(
-        source='itemfichatecnica_set', 
-        many=True, 
-        read_only=True
-    )
-    itens_para_cadastrar = ItemFichaTecnicaSerializer(
-        many=True, 
-        write_only=True
-    )
+    itens = ItemFichaTecnicaSerializer(source='itemfichatecnica_set', many=True, read_only=True)
+    itens_para_cadastrar = ItemFichaTecnicaSerializer(many=True, write_only=True)
+
+    # ESTA É A LINHA QUE ADICIONA O NOME DO MODELO
     produto_modelo_nome = serializers.CharField(source='produto_modelo.nome_modelo', read_only=True)
 
     class Meta:
         model = FichaTecnica
-        fields = [
-            'id', 'produto_modelo', 'produto_modelo_nome', 'descricao', 
-            'itens', 'itens_para_cadastrar'
-        ]
+        # E ESTA É A LISTA DE CAMPOS QUE INCLUI O NOME DO MODELO
+        fields = ['id', 'produto_modelo', 'produto_modelo_nome', 'descricao', 'itens', 'itens_para_cadastrar']
 
     def create(self, validated_data):
         itens_data = validated_data.pop('itens_para_cadastrar')
@@ -70,11 +70,8 @@ class FichaTecnicaSerializer(serializers.ModelSerializer):
             ItemFichaTecnica.objects.create(ficha_tecnica=instance, **item_data)
         return instance
 
-# --- NOVO SERIALIZADOR ADICIONADO AQUI ---
 class ValorAtributoGradeSerializer(serializers.ModelSerializer):
-    # Para mostrar o nome do atributo pai (ex: "Cor") junto com o valor ("Preto")
     atributo_nome = serializers.CharField(source='atributo.nome', read_only=True)
-
     class Meta:
         model = ValorAtributoGrade
         fields = ['id', 'valor', 'atributo_nome']

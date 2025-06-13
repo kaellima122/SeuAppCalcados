@@ -15,11 +15,7 @@
     --cor-botao-visualizar: #2b6cb0;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* === ESTILOS DO BODY E LAYOUT PRINCIPAL === */
 body {
@@ -27,16 +23,12 @@ body {
     background-color: var(--cor-fundo);
     color: var(--cor-texto-principal);
     display: flex;
-    flex-direction: column; /* Empilha os itens principais (header, container) verticalmente */
-    align-items: center;     /* Centraliza esses itens horizontalmente */
+    flex-direction: column;
+    align-items: center;
     min-height: 100vh;
     padding: 0 1rem 2rem 1rem;
 }
-
-/* Estilo específico para centralizar o CONTEÚDO das páginas de autenticação */
-body.auth-page {
-    justify-content: center; /* Centraliza o container verticalmente */
-}
+body.auth-page { justify-content: center; }
 
 .container {
     background: var(--cor-container);
@@ -45,16 +37,12 @@ body.auth-page {
     border: 1px solid var(--cor-borda);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 900px;
+    max-width: 1100px;
     margin-top: 2rem;
 }
+body.auth-page .container { max-width: 450px; margin-top: 0; }
 
-body.auth-page .container {
-    max-width: 450px;
-    margin-top: 0; /* Remove a margem do topo na página de login para centralizar corretamente */
-}
-
-/* === MENU DE NAVEGAÇÃO PRINCIPAL ===== */
+/* === MENU DE NAVEGAÇÃO RESPONSIVO (HAMBÚRGUER) ===== */
 #main-header {
     background-color: var(--cor-container);
     border-bottom: 1px solid var(--cor-borda);
@@ -64,7 +52,6 @@ body.auth-page .container {
     z-index: 900;
     width: 100%;
 }
-
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -73,140 +60,133 @@ body.auth-page .container {
     max-width: 1200px;
     margin: 0 auto;
 }
-
 .nav-logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--cor-texto-cabecalho);
     text-decoration: none;
+    flex-shrink: 0;
 }
-.nav-logo:hover {
-    color: var(--cor-destaque);
-    text-decoration: none;
-}
-
-/* CORREÇÃO PARA O MENU NÃO QUEBRAR A LINHA */
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 2rem; /* Usa 'gap' para um espaçamento consistente */
+    gap: 1.5rem;
 }
-
 .nav-menu a {
     color: var(--cor-texto-principal);
     text-decoration: none;
     font-weight: 500;
     padding: 5px 0;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s ease-in-out;
-    white-space: nowrap; /* Impede que o texto do link quebre a linha */
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
 }
 .nav-menu a:hover {
     color: var(--cor-texto-cabecalho);
     border-bottom-color: var(--cor-destaque);
     text-decoration: none;
 }
-
 .nav-user {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
 }
-
+.nav-username { white-space: nowrap; }
 #logoutButtonNav, .nav-login-btn {
     background-color: var(--cor-destaque);
-    color: white;
+    color: white; border: none; padding: 8px 16px;
+    border-radius: 6px; cursor: pointer; font-weight: bold;
+    text-decoration: none; white-space: nowrap;
+}
+#hamburger-btn {
+    display: none;
+    font-size: 2rem;
+    background: none;
     border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
+    color: var(--cor-texto-principal);
     cursor: pointer;
-    font-weight: bold;
-    text-decoration: none;
-}
-#logoutButtonNav:hover, .nav-login-btn:hover {
-    background-color: var(--cor-destaque-hover);
+    z-index: 1001;
 }
 
-/* === OUTROS ESTILOS (FORM, TABELA, MODAL, ETC) === */
+/* === ESTILOS GERAIS (FORM, TABELA, CARDS, ETC) === */
 .separator { border: none; height: 1px; background-color: var(--cor-borda); margin: 2.5rem 0; }
-h1 { text-align: center; color: var(--cor-texto-cabecalho); margin-bottom: 1.5rem; font-size: 2rem; }
-h2 { text-align: center; color: var(--cor-texto-cabecalho); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 500; }
-
+h1, h2 { text-align: center; color: var(--cor-texto-cabecalho); margin-bottom: 1.5rem; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; font-weight: 500; }
+a { color: var(--cor-destaque); text-decoration: none; transition: color 0.2s ease-in-out; }
+a:hover { text-decoration: underline; color: var(--cor-destaque-hover); }
 .form-section { max-width: 500px; margin: 0 auto 2rem auto; }
 form div { margin-bottom: 1.25rem; }
 label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-
-input, textarea, select {
-    width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--cor-borda);
-    border-radius: 8px; background-color: var(--cor-fundo-input);
-    color: var(--cor-texto-principal); font-size: 1rem;
-    transition: all 0.2s ease-in-out; font-family: inherit;
-}
+input, textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--cor-borda); border-radius: 8px; background-color: var(--cor-fundo-input); color: var(--cor-texto-principal); font-size: 1rem; transition: all 0.2s ease-in-out; font-family: inherit; }
 input:focus, textarea:focus, select:focus { outline: none; border-color: var(--cor-destaque); box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); }
-
-select {
-    -webkit-appearance: none; -moz-appearance: none; appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23E2E8F0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E');
-    background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: .65em auto;
-}
-
+select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23E2E8F0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: .65em auto; }
 button[type="submit"] { width: 100%; }
-.btn-adicionar { width: auto; background-color: var(--cor-sucesso); }
+.btn-adicionar { width: auto; background-color: var(--cor-sucesso); padding: 10px 20px; font-weight: bold; }
 .btn-adicionar:hover { background-color: #48bb78; }
-
 .table-container { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
 th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--cor-borda); vertical-align: middle; }
 thead th { background-color: #384252; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
 tbody tr:hover { background-color: #384252; }
 td:last-child { text-align: right; white-space: nowrap; }
-
-.btn-editar, .btn-excluir, .btn-visualizar {
-    padding: 6px 12px; border: none; border-radius: 6px; font-size: 0.85em;
-    font-weight: bold; margin-left: 8px; text-decoration: none;
-    display: inline-block; color: white; cursor: pointer;
-    transition: transform 0.2s ease;
-}
-.btn-editar:hover, .btn-excluir:hover, .btn-visualizar:hover { transform: translateY(-1px); }
+.btn-editar, .btn-excluir, .btn-visualizar { padding: 6px 12px; border: none; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin-left: 8px; text-decoration: none; display: inline-block; color: white; cursor: pointer; transition: transform 0.2s ease; }
 .btn-visualizar { background-color: var(--cor-botao-visualizar); }
 .btn-editar { background-color: var(--cor-botao-editar); }
 .btn-excluir { background-color: var(--cor-botao-excluir); }
-
 .status-planejada, .status-em_producao, .status-concluida, .status-cancelada { padding: 4px 8px; border-radius: 12px; font-weight: bold; font-size: 0.8em; color: white; }
 .status-planejada { background-color: #007bff; }
 .status-em_producao { background-color: #ffc107; color: #333; }
 .status-concluida { background-color: #28a745; }
 .status-cancelada { background-color: #6c757d; }
-
 .btn-liberar { background-color: #28a745; color: white; padding: 6px 12px; border: none; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer; }
 .btn-finalizar { background-color: #ffc107; color: #333; padding: 6px 12px; border: none; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer; }
-
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.3s ease; }
 .modal-overlay.modal-hidden { opacity: 0; pointer-events: none; }
 .modal-content { background: var(--cor-container); padding: 2rem; border-radius: 12px; border: 1px solid var(--cor-borda); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 100%; max-width: 500px; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem; margin-bottom: 1.5rem; }
 .modal-header h2 { color: var(--cor-destaque); margin: 0; }
 .btn-fechar { background: none; border: none; font-size: 2rem; color: #888; cursor: pointer; line-height: 1; }
-.btn-fechar:hover { color: white; }
 .modal-footer { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--cor-borda); }
 #btnSalvarVariacao, #btnCancelarModal { width: auto; }
 #btnCancelarModal { background-color: #4A5568; }
-#btnCancelarModal:hover { background-color: #718096; }
-
 .mensagem { margin-top: 1rem; padding: 1rem; border-radius: 8px; text-align: center; font-weight: bold; }
 .mensagem.sucesso { background-color: rgba(56, 161, 105, 0.2); border: 1px solid var(--cor-sucesso); color: var(--cor-sucesso); }
 .mensagem.erro { background-color: rgba(229, 62, 62, 0.2); border: 1px solid var(--cor-erro); color: var(--cor-erro); }
-
 .page-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
+.card { background-color: #384252; border: 1px solid var(--cor-borda); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; }
+.card-header { border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem; margin-bottom: 1rem; }
+.card-header h3 { color: var(--cor-texto-cabecalho); margin: 0; }
+.card-header p { color: var(--cor-texto-principal); font-size: 0.9em; margin: 0.25rem 0 0 0; }
+.card-body h4 { color: var(--cor-destaque); margin-bottom: 0.75rem; font-size: 1rem; }
+.card-body ul { list-style: none; padding-left: 0; }
+.card-body li { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); }
+.card-body li:last-child { border-bottom: none; }
 
-@media (max-width: 768px) {
-    .container { padding: 1.5rem; }
+/* === MEDIA QUERIES PARA RESPONSIVIDADE === */
+@media (max-width: 1100px) {
+    .nav-menu a { font-size: 0.9em; }
+    .nav-logo { font-size: 1.25rem; }
+}
+@media (max-width: 992px) {
+    .nav-menu {
+        display: none; /* Esconde o menu de links */
+        position: absolute; top: 70px; left: 0; width: 100%;
+        background-color: var(--cor-container); flex-direction: column;
+        align-items: center; gap: 0; padding: 1rem 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+    .nav-menu.menu-aberto { display: flex; } /* Mostra o menu quando ativo */
+    .nav-menu a { width: 100%; text-align: center; border-bottom: 1px solid var(--cor-borda); }
+    .nav-menu a:last-child { border-bottom: none; }
+    #hamburger-btn { display: block; } /* Mostra o botão hambúrguer */
     #main-header { padding: 0 1rem; }
-    .nav-menu { display: none; } /* Esconde o menu de texto em telas menores */
 }
 @media (max-width: 600px) {
+    .container { padding: 1.5rem; }
     h1 { font-size: 1.5rem; }
-    h2 { font-size: 1.25rem; }
     .page-header { flex-direction: column; align-items: stretch; }
     .page-header h1 { text-align: center; }
     .btn-adicionar { width: 100%; }

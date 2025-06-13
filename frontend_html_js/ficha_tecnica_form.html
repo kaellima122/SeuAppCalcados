@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica - Gestão de Calçados</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <main class="container">
+        <h1 id="form-title">Criar Nova Ficha Técnica</h1>
+
+        <div class="form-section">
+            <form id="fichaTecnicaForm">
+                
+                <div>
+                    <label for="produtoModelo">Modelo do Produto</label>
+                    <select id="produtoModelo" name="produto_modelo" required>
+                        <option value="">Selecione um modelo...</option>
+                        </select>
+                </div>
+                
+                <div>
+                    <label for="descricao">Descrição da Ficha</label>
+                    <input type="text" id="descricao" name="descricao" placeholder="Ex: Ficha Padrão V1.0" required>
+                </div>
+
+                <hr class="separator">
+
+                <h2>Componentes da Ficha</h2>
+                
+                <div id="itens-container">
+                    </div>
+
+                <div style="margin-top: 1rem;">
+                    <button type="button" id="btnAdicionarItem" class="btn-adicionar" style="width: auto;">+ Adicionar Matéria-Prima</button>
+                </div>
+
+                <hr class="separator">
+
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="submit" class="btn-salvar">Salvar Ficha Técnica</button>
+                    <a href="fichas_tecnicas.html" class="btn-cancelar" style="display: block; text-align: center; margin-top: 1rem; background-color: #4A5568;">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="js/main.js" defer></script> 
+    <script src="js/ficha_tecnica_form.js" defer></script>
+</body>
+</html>
